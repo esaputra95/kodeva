@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/integrations/supabase/browser";
 
@@ -48,6 +49,9 @@ export function MarketingLoginForm() {
       </button>
       <p className="admin-login-hint">
         Akses dibatasi untuk akun yang ditambahkan ke daftar marketing di Supabase.
+      </p>
+      <p className="admin-login-hint">
+        <Link href="/admin/forgot-password">Lupa password atau baru menerima undangan?</Link>
       </p>
     </form>
   );
