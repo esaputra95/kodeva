@@ -9,6 +9,8 @@ import { SiteShell } from "@/components/layouts/site-shell";
 import { getPostBySlug } from "@/features/blog/server/queries";
 import { PRODUCTS } from "@/features/products/model/catalog";
 import { sanityImageUrl } from "@/integrations/sanity/image";
+import { ShareActions } from "@/features/sharing/components/share-actions";
+import { getSiteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -63,6 +65,15 @@ export default async function BlogDetailPage({ params }: Props) {
               </span>
               <span className="article-reading">4 menit baca</span>
             </div>
+            <ShareActions
+              content={{
+                title: `${post.title} — Kodeva`,
+                text: post.excerpt,
+                url: `${getSiteUrl()}/blog/${post.slug}`,
+                kind: "article",
+                id: post.slug,
+              }}
+            />
           </header>
           <div className={`article-cover${post.coverUrl ? " has-image" : ""}`}>
             {post.coverUrl ? (

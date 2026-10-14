@@ -29,7 +29,7 @@ export function ProductVisual({
         <div className="visual-dashboard">
           <aside className="visual-sidebar">
             <span className="visual-side-logo">
-              <Icon size={16} />
+              <Icon size={compact ? 16 : 18} />
             </span>
             <i />
             <i />
@@ -49,14 +49,14 @@ export function ProductVisual({
                 <span>Total tercatat</span>
                 <strong>Rp 8,42 jt</strong>
                 <small>
-                  <ArrowUpRight size={12} /> 12,8%
+                  <ArrowUpRight size={compact ? 12 : 14} /> 12,8%
                 </small>
               </div>
               <div>
                 <span>Perlu diperiksa</span>
                 <strong>12 item</strong>
                 <small className="visual-muted">
-                  <ArrowDownRight size={12} /> 2 dari kemarin
+                  <ArrowDownRight size={compact ? 12 : 14} /> 2 dari kemarin
                 </small>
               </div>
             </div>
@@ -85,7 +85,7 @@ export function ProductVisual({
       </div>
       <div className="visual-caption">
         <span className="visual-caption-icon">
-          <Icon size={16} />
+          <Icon size={compact ? 16 : 18} />
         </span>
         <span>
           <b>{product.name}</b>

@@ -14,6 +14,8 @@ import { ProductCard } from "@/features/products/components/product-card";
 import { ProductVisual } from "@/features/products/components/product-visual";
 import { TrackCta } from "@/features/attribution/components/track-cta";
 import { LeadForm } from "@/features/leads/components/lead-form";
+import { ShareActions } from "@/features/sharing/components/share-actions";
+import { getSiteUrl } from "@/lib/site-url";
 import { PRODUCTS } from "@/features/products/model/catalog";
 import { resolveFeaturedProducts, type LandingContent } from "@/features/content/model/content";
 
@@ -54,6 +56,15 @@ export function LandingPage({ content }: { content: LandingContent }) {
                 <Check size={15} /> Checkout hanya simulasi
               </span>
             </div>
+            <ShareActions
+              content={{
+                title: `Kodeva — ${content.hero.title}`,
+                text: content.hero.subtitle,
+                url: getSiteUrl(),
+                kind: "campaign",
+                id: content.campaignId,
+              }}
+            />
           </div>
           <div className="hero-art">
             <div className="hero-art-glow" />

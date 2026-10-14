@@ -8,6 +8,8 @@ import { getProductBySlug, PRODUCTS } from "@/features/products/model/catalog";
 import { ProductVisual } from "@/features/products/components/product-visual";
 import { ProductPurchase } from "@/features/products/components/product-purchase";
 import { EcommerceView } from "@/features/attribution/components/ecommerce-view";
+import { ShareActions } from "@/features/sharing/components/share-actions";
+import { getSiteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -40,6 +42,15 @@ export default async function ProductDetailPage({ params }: Props) {
               <Badge>{product.category}</Badge>
               <h1>{product.name}</h1>
               <p className="detail-lead">{product.description}</p>
+              <ShareActions
+                content={{
+                  title: `${product.name} — Kodeva`,
+                  text: product.shortDescription,
+                  url: `${getSiteUrl()}/products/${product.slug}`,
+                  kind: "product",
+                  id: product.id,
+                }}
+              />
               <div className="detail-visual">
                 <ProductVisual product={product} />
               </div>

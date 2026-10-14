@@ -1,9 +1,21 @@
 import type { Attribution } from "./attribution";
+import type { ShareContent } from "@/features/sharing/types";
 
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
   }
+}
+
+export function trackShare(content: ShareContent, method: "native" | "copy" | "whatsapp") {
+  if (typeof window === "undefined") return;
+  window.dataLayer ??= [];
+  window.dataLayer.push({
+    event: "share",
+    content_type: content.kind,
+    item_id: content.id,
+    method,
+  });
 }
 
 type EcommerceItem = {
