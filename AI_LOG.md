@@ -53,4 +53,4 @@ Verifikasi share: 25 test pada 8 file, typecheck, lint, format check, dan build 
 
 ## Bagian yang harus ditulis sendiri oleh peserta
 
-> Tulis di sini satu paragraf pendek dengan gaya kamu sendiri: keputusan teknis yang paling kamu pertahankan, alasan kamu memilihnya, trade-off yang kamu terima, dan apa yang akan kamu ubah bila punya satu minggu lagi. Hapus instruksi ini setelah kamu menulis. Bagian ini memang belum diisi AI.
+Dengan bantuan Codex, saya memilih mempertahankan validasi harga dan checkout di server, sementara hasil checkout dibuat deterministik agar alurnya mudah dicoba dan diuji. Trade-off-nya, checkout ini tetap simulasi: belum ada pembayaran sungguhan atau penyimpanan order ke database. Saya menggunakan Sanity untuk konten yang perlu diperbarui tim marketing dan Supabase untuk data lead; pemisahan ini membuat peran tiap layanan jelas, meski menambah konfigurasi yang perlu dirawat. Jika memiliki satu minggu lagi, saya akan menuntaskan verifikasi akses CMS dan RLS marketing, menguji alur lead sampai ekspor CSV secara end-to-end, lalu mengukur performa Lighthouse dan memperbaiki temuan yang paling berdampak.
