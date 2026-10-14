@@ -71,7 +71,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <aside className="detail-aside">
               <ProductPurchase product={product} />
               <p className="detail-side-note">
-                Harga per {product.unitLabel}. Diskon dan kuota hanya untuk simulasi tes.
+                Harga {product.unitLabel}. Diskon dan kuota hanya untuk simulasi tes.
               </p>
             </aside>
           </div>

@@ -6,6 +6,19 @@ Tidak ada penjualan, lisensi, atau pembayaran sungguhan. Jangan masukkan data ko
 
 Dokumen: [PRD](PRD-Kodeva.md) · [AI log](AI_LOG.md).
 
+## Deploy produksi
+
+- Website: [kodeva-seven.vercel.app](https://kodeva-seven.vercel.app).
+- CMS: [Sanity Studio](https://kodeva-seven.vercel.app/studio), login memakai akun anggota project Sanity.
+- Panel: [login marketing](https://kodeva-seven.vercel.app/admin/login).
+- Source: [esaputra95/kodeva](https://github.com/esaputra95/kodeva), branch `main`; push ke branch ini memicu deployment Vercel.
+
+Pada 14 Oktober 2026, build Vercel berstatus Ready. Landing, katalog, blog, tambah paket → cart → checkout berhasil, dan login Sanity Studio diperiksa melalui Edge. Lead demo `QA Deploy 14 Okt 2026` diterima form live dan terlihat sebagai record di tabel Supabase `leads`; email pengujiannya memakai domain `example.com`.
+
+Konfigurasi Sanity dan publishable key Supabase disimpan untuk Production/Preview. `NEXT_PUBLIC_SITE_URL=https://kodeva-seven.vercel.app` dan `SUPABASE_SECRET_KEY` hanya disimpan untuk Production; key server memakai tipe Sensitive/Secret. Host `/studio` terdaftar di Sanity dan origin `https://kodeva-seven.vercel.app` memiliki credentials allowed. Nilai secret tidak disimpan di repository. File `.env` lokal masih memakai placeholder.
+
+Dataset Sanity `production` masih kosong, sehingga landing/blog memakai fallback. `SANITY_REVALIDATE_SECRET` dan webhook belum dikonfigurasi; cache konten tetap memakai revalidasi 60 detik. Allowlist `marketing_users` juga masih kosong, sehingga akses akun marketing belum siap.
+
 ## Jalankan lokal
 
 Butuh Node.js 24 dan pnpm 11. Dari folder `kodeva-app`:
@@ -84,9 +97,9 @@ Suite berisi 16 unit test pada 7 file: hitung harga dan kuota lintas paket, peru
 
 ## Yang belum siap untuk pengumpulan
 
-- Kredensial belum dimasukkan ke `.env.local` dan belum ada verifikasi request nyata ke Supabase/Sanity dari app.
-- Akun Auth marketing belum di-allowlist; siapkan sebelum demo panel.
-- Repository remote dan deploy produksi belum dibuat. `NEXT_PUBLIC_SITE_URL` masih lokal.
+- Kredensial lokal belum dimasukkan ke `.env.local`; konfigurasi Production sudah tersimpan di Vercel dan insert lead live sudah diverifikasi.
+- Allowlist marketing masih kosong; siapkan akun Auth dan membership sebelum demo panel, lalu uji login/RLS serta CSV.
+- Login Studio berhasil, tetapi publikasi konten pertama dan perubahan konten tanpa redeploy belum diuji. Dataset masih kosong.
 - Lighthouse mobile belum menghasilkan skor: proses CLI tidak dapat menyalakan Chrome di lingkungan ini (`waiting for dynamic debugging port`). Target 80 tetap belum boleh diklaim; jalankan Lighthouse dari Chrome setelah deploy/di mesin demo.
 - Durasi pengerjaan aktual perlu dicatat sebelum submit; jangan mengisi perkiraan seolah hasil pengukuran.
 - README ini dan `AI_LOG.md` berisi kontribusi AI. Isi bagian “ditulis sendiri” di AI log dengan paragraf yang benar-benar kamu tulis.

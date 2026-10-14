@@ -1,28 +1,37 @@
 # PRD Kodeva — Campaign, Blog, dan Mini Marketplace
 
-Versi: 1.7  
-Tanggal dibuat: 12 Oktober 2026, Asia/Jakarta  
-Terakhir diperbarui: 14 Oktober 2026, Asia/Jakarta  
-Status: implementasi lokal tersedia; koneksi cloud, Lighthouse, dan deploy belum diverifikasi.  
-Keputusan pengguna: menggunakan Next.js, memakai prototype Kodeva Akhir Tahun dari Google AI Studio sebagai arah visual, dan memasukkan fitur pembeda yang direkomendasikan ke PRD. Implementasi mengikuti gaya tersebut dengan copy Bahasa Indonesia yang khusus untuk demo ini. Pembuat link UTM, filter/ekspor lead, serta test logika inti sudah dibuat; preview draft dan tabel paket masih ditunda. Repository lokal ada di `kodeva-app`; CMS Sanity dan Supabase dipasang, tetapi environment cloud lokal belum diisi. PRD ini mencatat kebutuhan awal dan status aktual, bukan bukti bahwa layanan online sudah siap.
+- Versi: 1.8
+- Tanggal dibuat: 12 Oktober 2026, Asia/Jakarta
+- Terakhir diperbarui: 14 Oktober 2026, Asia/Jakarta
+- Status: produksi tersedia di Vercel; lead live dan login Studio terverifikasi. Publikasi CMS, akses marketing, dan Lighthouse masih perlu diselesaikan.
+
+Keputusan pengguna: menggunakan Next.js, memakai prototype Kodeva Akhir Tahun dari Google AI Studio sebagai arah visual, dan memasukkan fitur pembeda yang direkomendasikan ke PRD. Implementasi mengikuti gaya tersebut dengan copy Bahasa Indonesia yang khusus untuk demo ini. Pembuat link UTM, filter/ekspor lead, serta test logika inti sudah dibuat; preview draft dan tabel paket masih ditunda. Repository `esaputra95/kodeva` terhubung ke Vercel. Environment Production sudah dikonfigurasi; environment lokal masih memakai placeholder. PRD mencatat kebutuhan awal, hasil verifikasi, dan pekerjaan yang tersisa.
 
 ## 1. Konteks dan tujuan
 
-### 1.1 Status implementasi lokal — 14 Oktober 2026
+### 1.1 Status implementasi — 14 Oktober 2026
 
-| Bagian                                                                                         | Status aktual                                                                                                                                                                                                       |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Landing responsif, katalog enam produk, filter/search/sort URL, detail dan tiga paket          | Sudah dibuat dengan data demo; harga dan paket bukan penawaran nyata.                                                                                                                                               |
-| Cart tersimpan, kuota lintas paket, ringkasan harga, checkout hasil tetap berhasil/gagal       | Sudah dibuat; order hanya mock pada browser, tanpa pembayaran atau penyimpanan transaksi.                                                                                                                           |
-| Sanity Studio, skema campaign/blog, gambar dan artikel portable text, fallback, revalidasi tag | Kode sudah dibuat; login/dataset publish dan webhook perlu diverifikasi pada project cloud.                                                                                                                         |
-| Lead dan panel marketing                                                                       | Endpoint, form, filter ID campaign/source, CSV dan allowlist RLS sudah dibuat. Lead insert dan login panel perlu kredensial lokal serta user marketing.                                                             |
-| First-touch UTM, link builder Instagram/TikTok, event `dataLayer`                              | Sudah dibuat dan diuji pada fungsi murni; GA4 sungguhan tidak dipasang.                                                                                                                                             |
-| Unit test logika                                                                               | 16 test pada 7 file telah lolos; uji browser/cloud belum dilakukan.                                                                                                                                                 |
-| Build produksi                                                                                 | `pnpm build` lolos; landing, katalog, dan blog menerima HTTP 200 saat dijalankan lokal tanpa kredensial cloud. Uji route admin dengan user nyata belum dilakukan.                                                   |
-| Verifikasi lokal                                                                               | Formatter, typecheck, lint, 16 unit test pada 7 file, peer dependency, dan build produksi lolos. Smoke flow tambah paket → cart → checkout sukses serta tampilan mobile sudah diperiksa manual.                     |
-| Lighthouse mobile, URL deploy, akses reviewer                                                  | Lighthouse CLI belum dapat membuka debugging port Chrome; skor target 80 belum diverifikasi. Deploy dan akses reviewer masih perlu disiapkan. Durasi aktual pengerjaan perlu dicatat dari catatan waktu sebenarnya. |
+| Bagian                                                                                         | Status aktual                                                                                                                                                                                   |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Landing responsif, katalog enam produk, filter/search/sort URL, detail dan tiga paket          | Sudah dibuat dengan data demo; harga dan paket bukan penawaran nyata.                                                                                                                           |
+| Cart tersimpan, kuota lintas paket, ringkasan harga, checkout hasil tetap berhasil/gagal       | Sudah dibuat; order hanya mock pada browser, tanpa pembayaran atau penyimpanan transaksi.                                                                                                       |
+| Sanity Studio, skema campaign/blog, gambar dan artikel portable text, fallback, revalidasi tag | Login Studio pada domain produksi berhasil. Dataset `production` dapat dibaca tetapi masih kosong; publikasi konten dan webhook belum diuji.                                                    |
+| Lead dan panel marketing                                                                       | Form live berhasil menyimpan lead demo; record dikonfirmasi di Supabase. UI filter/CSV dan RLS tersedia, tetapi allowlist marketing masih kosong dan login akun marketing belum diuji.          |
+| First-touch UTM, link builder Instagram/TikTok, event `dataLayer`                              | Sudah dibuat dan diuji pada fungsi murni; GA4 sungguhan tidak dipasang.                                                                                                                         |
+| Unit test logika                                                                               | 16 test pada 7 file telah lolos. Smoke test produksi mencakup lead live, landing/katalog/blog, checkout berhasil, dan login Studio.                                                             |
+| Build produksi                                                                                 | Build Vercel dengan Node.js 24 dan pnpm 11 berhasil dan deployment berstatus Ready. Akses marketing dengan akun terdaftar belum diuji.                                                          |
+| Verifikasi lokal                                                                               | Formatter, typecheck, lint, 16 unit test pada 7 file, peer dependency, dan build produksi lolos. Smoke flow tambah paket → cart → checkout sukses serta tampilan mobile sudah diperiksa manual. |
+| Lighthouse mobile, URL deploy, akses reviewer                                                  | URL produksi tersedia di `https://kodeva-seven.vercel.app`. Skor Lighthouse 80 belum diverifikasi. Akses reviewer CMS/marketing, refleksi peserta, dan durasi aktual masih perlu disiapkan.     |
 
-Fitur preview draft Sanity dan tabel perbandingan paket sengaja belum dibuat. Koneksi cloud tidak disimulasikan sebagai berhasil ketika kunci belum tersedia.
+Fitur preview draft Sanity dan tabel perbandingan paket sengaja belum dibuat. Keberhasilan insert lead dan login Studio tidak dianggap sebagai bukti seluruh acceptance CMS/auth sudah lolos.
+
+### 1.2 Konfigurasi dan bukti deployment
+
+Repository [esaputra95/kodeva](https://github.com/esaputra95/kodeva) memakai branch `main` untuk auto-deploy. Website produksi: [kodeva-seven.vercel.app](https://kodeva-seven.vercel.app); CMS: [/studio](https://kodeva-seven.vercel.app/studio); panel marketing: [/admin/login](https://kodeva-seven.vercel.app/admin/login).
+
+Vercel Production menyimpan URL situs, konfigurasi publik Sanity/Supabase, dan `SUPABASE_SECRET_KEY` bertipe Secret. Key server hanya tersedia pada Production. Konfigurasi publik Sanity/Supabase juga tersedia pada Preview. Nilai secret tidak dicantumkan dalam PRD atau repository. Origin Sanity yang ditambahkan adalah `https://kodeva-seven.vercel.app` dengan credentials allowed, dikelola oleh host Studio `https://kodeva-seven.vercel.app/studio`.
+
+Pada 14 Oktober 2026, form produksi menerima data dummy `QA Deploy 14 Okt 2026` / `qa-kodeva-deploy@example.com`; record terlihat pada tabel `leads`. Alur Kasir Retail Pro → cart → checkout simulasi berhasil menampilkan referensi demo dan mengosongkan cart. Dataset Sanity masih memiliki nol dokumen published; publikasi pertama belum diuji. `marketing_users` memiliki nol record. Webhook Sanity opsional belum dipasang.
 
 Kodeva adalah brand fiktif software bisnis berlangganan untuk UMKM. Campaign “Promo Akhir Tahun” membutuhkan landing page dan blog yang dapat dikelola marketing, serta marketplace dengan alur belanja sampai pembayaran simulasi.
 
