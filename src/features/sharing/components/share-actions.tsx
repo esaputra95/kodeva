@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { MessageCircle, Share2 } from "lucide-react";
+import { Copy, MessageCircle, Share2 } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { trackShare } from "@/features/attribution/model/events";
@@ -17,7 +17,7 @@ const labels: Record<ShareContent["kind"], string> = {
 
 export function ShareActions({ content }: { content: ShareContent }) {
   const inputId = useId();
-  const { share, pending, result } = useShare(content);
+  const { share, copy, pending, result } = useShare(content);
   const url = canonicalShareUrl(content.url);
   return (
     <div className="share-actions">
@@ -37,6 +37,9 @@ export function ShareActions({ content }: { content: ShareContent }) {
         >
           <MessageCircle size={17} aria-hidden="true" /> WhatsApp
         </ButtonLink>
+        <Button type="button" variant="ghost" size="small" onClick={copy} disabled={pending}>
+          <Copy size={17} aria-hidden="true" /> Salin tautan
+        </Button>
       </div>
       <p className="share-status" role="status" aria-live="polite">
         {result === "copied"
@@ -45,7 +48,7 @@ export function ShareActions({ content }: { content: ShareContent }) {
             ? "Tautan diteruskan ke pilihan berbagi."
             : result === "manual"
               ? "Pilih tautan di bawah, lalu salin untuk dibagikan."
-              : "Gunakan menu berbagi perangkat atau salin tautan."}
+              : "Bagikan lewat perangkat, WhatsApp, atau salin tautan."}
       </p>
       {result === "manual" ? (
         <Field label="Tautan untuk dibagikan" htmlFor={inputId}>

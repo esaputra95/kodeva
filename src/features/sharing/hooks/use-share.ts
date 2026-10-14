@@ -10,14 +10,14 @@ export function useShare(content: ShareContent) {
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<ShareResult | null>(null);
 
-  async function share() {
+  async function run(useNativeShare: boolean) {
     if (busy.current) return;
     busy.current = true;
     setPending(true);
     setResult(null);
     try {
       const outcome = await shareContent(content, {
-        share: navigator.share?.bind(navigator),
+        share: useNativeShare ? navigator.share?.bind(navigator) : undefined,
         copy: navigator.clipboard?.writeText.bind(navigator.clipboard),
       });
       setResult(outcome);
@@ -30,5 +30,5 @@ export function useShare(content: ShareContent) {
     }
   }
 
-  return { share, pending, result };
+  return { share: () => run(true), copy: () => run(false), pending, result };
 }

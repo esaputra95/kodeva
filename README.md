@@ -15,9 +15,9 @@ Dokumen: [PRD](PRD-Kodeva.md) · [AI log](AI_LOG.md).
 
 Pada 14 Oktober 2026, build Vercel berstatus Ready. Landing, katalog, blog, tambah paket → cart → checkout berhasil, dan login Sanity Studio diperiksa melalui Edge. Lead demo `QA Deploy 14 Okt 2026` diterima form live dan terlihat sebagai record di tabel Supabase `leads`; email pengujiannya memakai domain `example.com`.
 
-Konfigurasi Sanity dan publishable key Supabase disimpan untuk Production/Preview. `NEXT_PUBLIC_SITE_URL=https://kodeva-seven.vercel.app` dan `SUPABASE_SECRET_KEY` hanya disimpan untuk Production; key server memakai tipe Sensitive/Secret. Host `/studio` terdaftar di Sanity dan origin `https://kodeva-seven.vercel.app` memiliki credentials allowed. Nilai secret tidak disimpan di repository. File `.env` lokal masih memakai placeholder.
+Konfigurasi Sanity dan publishable key Supabase disimpan untuk Production/Preview. `NEXT_PUBLIC_SITE_URL=https://kodeva-seven.vercel.app` dan `SUPABASE_SECRET_KEY` hanya disimpan untuk Production; key server memakai tipe Sensitive/Secret. Host `/studio` terdaftar di Sanity dan origin `https://kodeva-seven.vercel.app` memiliki credentials allowed. Nilai secret tidak disimpan di repository. File `.env` lokal tersedia dan diabaikan Git; pengujian cloud di bawah memakai konfigurasi Production.
 
-Dataset Sanity `production` masih kosong, sehingga landing/blog memakai fallback. `SANITY_REVALIDATE_SECRET` dan webhook belum dikonfigurasi; cache konten tetap memakai revalidasi 60 detik. Allowlist `marketing_users` juga masih kosong, sehingga akses akun marketing belum siap.
+Pada pemeriksaan lanjutan 14 Oktober 2026, artikel “Cara Agar Bisnis lebih rapi” sudah muncul pada blog produksi dari Sanity. Perubahan publish berikutnya, konten campaign landing, dan webhook masih perlu diuji; cache konten memakai revalidasi 60 detik. Login/RLS akun marketing dan akses reviewer belum diverifikasi ulang.
 
 ## Jalankan lokal
 
@@ -68,13 +68,19 @@ Katalog memakai fixture harga canonical di `src/features/products/model/catalog.
 
 Checkout menawarkan hasil simulasi berhasil/gagal yang dapat dipilih, bukan random. Hasil sukses mengosongkan cart; hasil gagal membiarkan cart tersedia untuk dicoba ulang. Ringkasan order dan first-touch attribution tersimpan hanya pada sessionStorage browser agar hasil bisa dilihat pada halaman berikutnya. Tidak ada order/payment database, gateway, email, atau pengiriman lisensi.
 
+## Berbagi tautan
+
+Landing campaign, detail produk, dan artikel memakai komponen `ShareActions` yang sama. Pengunjung dapat membuka menu share perangkat, menyiapkan pesan WhatsApp, atau menyalin tautan langsung. Link WhatsApp membuka tab baru dan tetap meminta pengunjung memilih penerima serta mengirim sendiri. Tautan yang dibagikan memakai URL halaman tanpa query/UTM atau fragment.
+
+Browser tanpa native share beralih ke clipboard; jika clipboard ditolak, tampil input tautan yang dapat dipilih dan disalin manual. Membatalkan menu share tidak menyalin apa pun dan tidak mencatat keberhasilan. Event `share` pada `dataLayer` memuat jenis konten, ID, dan metode; klik WhatsApp mencatat pilihan kanal, bukan bukti pesan terkirim.
+
 ## Struktur kode
 
 ```text
 src/
 ├── app/                 # Route, layout, metadata, dan API handlers
 ├── components/          # UI dan site shell lintas fitur
-├── features/            # Cart, products, content, leads, checkout, blog, attribution, marketing
+├── features/            # Cart, products, content, leads, checkout, blog, attribution, marketing, sharing
 ├── integrations/        # Client Sanity dan Supabase
 ├── lib/                 # Helper format, URL, class names
 ├── constants/           # Nilai lintas fitur
@@ -93,13 +99,13 @@ pnpm format:check
 pnpm build
 ```
 
-Suite berisi 16 unit test pada 7 file: hitung harga dan kuota lintas paket, perubahan cart, katalog, checkout server yang mengabaikan harga dari browser, pilihan hasil simulasi, first-touch UTM, pembuat link, normalisasi kontak, dan pengamanan CSV. Build produksi lokal juga sudah dibuka; landing, katalog, dan blog merespons HTTP 200, lalu alur tambah paket → keranjang → checkout berhasil diperiksa manual di browser mobile. Tes ini tidak menggantikan uji login/permissions pada Supabase atau alur preview deploy.
+Suite berisi 25 unit test pada 8 file: hitung harga dan kuota lintas paket, perubahan cart, katalog, checkout server yang mengabaikan harga dari browser, pilihan hasil simulasi, first-touch UTM, pembuat link, normalisasi kontak, pengamanan CSV, serta native share/cancel/fallback dan encoding tautan WhatsApp. Build produksi lokal juga sudah dibuka; landing, katalog, dan blog merespons HTTP 200, lalu alur tambah paket → keranjang → checkout berhasil diperiksa manual di browser mobile. Tes ini tidak menggantikan uji login/permissions pada Supabase atau alur preview deploy.
 
 ## Yang belum siap untuk pengumpulan
 
-- Kredensial lokal belum dimasukkan ke `.env.local`; konfigurasi Production sudah tersimpan di Vercel dan insert lead live sudah diverifikasi.
-- Allowlist marketing masih kosong; siapkan akun Auth dan membership sebelum demo panel, lalu uji login/RLS serta CSV.
-- Login Studio berhasil, tetapi publikasi konten pertama dan perubahan konten tanpa redeploy belum diuji. Dataset masih kosong.
+- File `.env` lokal tersedia; koneksi lead/auth lokal belum diuji. Insert lead Production sudah diverifikasi.
+- Siapkan atau verifikasi akun Auth dan membership reviewer marketing, lalu uji login/RLS serta CSV. Allowlist terakhir diperiksa saat deployment awal dan saat itu kosong.
+- Login Studio dan pembacaan artikel published sudah terbukti. Uji perubahan konten berikutnya tanpa redeploy, termasuk campaign landing dan gambar CMS.
 - Lighthouse mobile belum menghasilkan skor: proses CLI tidak dapat menyalakan Chrome di lingkungan ini (`waiting for dynamic debugging port`). Target 80 tetap belum boleh diklaim; jalankan Lighthouse dari Chrome setelah deploy/di mesin demo.
 - Durasi pengerjaan aktual perlu dicatat sebelum submit; jangan mengisi perkiraan seolah hasil pengukuran.
 - README ini dan `AI_LOG.md` berisi kontribusi AI. Isi bagian “ditulis sendiri” di AI log dengan paragraf yang benar-benar kamu tulis.

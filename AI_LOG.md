@@ -16,6 +16,7 @@ Log ini mencatat bantuan AI pada implementasi. Ringkasan prompt di bawah diparaf
 4. Bangun implementasi yang dapat dicoba untuk konten campaign/blog, lead, katalog, keranjang, promo, checkout simulasi, tracking, dan panel marketing; pertahankan arah visual Kodeva.
 5. Jangan gunakan copy generik atau menyatakan data demo sebagai klaim produk nyata.
 6. Push repository `esaputra95/kodeva` dan deploy lewat dashboard Vercel di Edge; siapkan konfigurasi cloud dengan izin spesifik untuk secret dan origin CMS.
+7. Tambahkan tombol share sebagai nilai tambah. Pengguna kemudian memperbarui ukuran font sendiri dan menyatakan hasilnya sudah sesuai; perubahan berikutnya mempertahankan ukuran tersebut.
 
 ## Implementasi yang dibantu AI
 
@@ -24,6 +25,7 @@ Log ini mencatat bantuan AI pada implementasi. Ringkasan prompt di bawah diparaf
 - Cart Zustand yang tersimpan per browser, UI katalog/detail/cart responsif, checkout server-validated yang hasilnya deterministik, dan order demo pada sesi browser.
 - Form lead tervalidasi, endpoint Supabase server-only, akses dashboard berdasarkan membership, dan UI daftar/CSV.
 - First-touch UTM, event-shaped `dataLayer`, blog dengan pagination, metadata SEO, pengujian logika, serta README.
+- Share reusable untuk campaign, produk, dan artikel: menu perangkat, WhatsApp, clipboard, dan input manual ketika clipboard ditolak. Sembilan test tambahan memeriksa keberhasilan, pembatalan, fallback, URL bersih, dan encoding pesan.
 
 ## Kekeliruan AI yang tertangkap dan diperbaiki
 
@@ -41,11 +43,13 @@ Log ini mencatat bantuan AI pada implementasi. Ringkasan prompt di bawah diparaf
 
 ## Verifikasi yang dijalankan
 
-Verifikasi lokal terakhir pada 14 Oktober 2026: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test` (16 test/7 file), `pnpm peers check`, dan `pnpm build` semuanya lolos. Build menghasilkan halaman statis/dinamis dan endpoint API; smoke check production lokal menerima HTTP 200 pada landing, katalog, dan blog. Tampilan landing, tambah paket, ringkasan cart, dan checkout berhasil diperiksa pada viewport mobile.
+Verifikasi lokal awal pada 14 Oktober 2026: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test` (16 test/7 file), `pnpm peers check`, dan `pnpm build` semuanya lolos. Build menghasilkan halaman statis/dinamis dan endpoint API; smoke check production lokal menerima HTTP 200 pada landing, katalog, dan blog. Tampilan landing, tambah paket, ringkasan cart, dan checkout berhasil diperiksa pada viewport mobile.
 
 Deployment produksi pada 14 Oktober 2026 tersedia di [kodeva-seven.vercel.app](https://kodeva-seven.vercel.app), terhubung ke repository GitHub branch `main`. Build Vercel dan redeploy setelah pengaturan URL situs berstatus Ready. Landing, katalog, blog, tambah Kasir Retail Pro → cart → checkout berhasil, dan login Sanity Studio diperiksa melalui Edge. Form live berhasil menyimpan lead dummy; record dikonfirmasi di tabel Supabase `leads`. Host Studio dan CORS dengan credentials dikonfigurasi untuk domain produksi setelah izin pengguna.
 
-Lighthouse belum menghasilkan skor karena Chrome Launcher gagal membuka debugging port di lingkungan ini. Dataset Sanity masih kosong; publikasi CMS dan perubahan konten tanpa redeploy belum diuji. Allowlist marketing kosong, sehingga login/RLS dengan user marketing serta akses reviewer belum diverifikasi. Environment lokal masih placeholder, sementara Production sudah memakai konfigurasi Vercel. Jangan menulis bahwa target Lighthouse 80 atau seluruh acceptance cloud sudah lolos sebelum mengukurnya.
+Pemeriksaan lanjutan 14 Oktober 2026: artikel published “Cara Agar Bisnis lebih rapi” tampil di blog produksi, sehingga dataset sudah berisi konten. File `.env` lokal juga tersedia. Status sebelumnya tentang dataset kosong dan placeholder lokal tidak lagi dipakai sebagai status terkini. Perubahan publish berikutnya, campaign landing, login/RLS marketing, dan akses reviewer masih perlu diverifikasi. Lighthouse belum menghasilkan skor; target 80 belum boleh diklaim.
+
+Verifikasi share: 25 test pada 8 file, typecheck, lint, format check, dan build produksi lolos. Browser build lokal menampilkan kontrol campaign, produk, dan artikel; aksi salin menampilkan status sukses. Clipboard API alat mengembalikan teks kosong sehingga isi clipboard OS tidak dijadikan bukti. Pengiriman WhatsApp dan sheet native OS tidak diuji sampai pesan terkirim. Artikel diperiksa pada 360/390/768 px, serta campaign/produk pada 360 px; tidak ditemukan horizontal overflow dan kontrol share memiliki tinggi 44 px. Ukuran font yang sudah disetujui pengguna tidak diubah kembali.
 
 ## Bagian yang harus ditulis sendiri oleh peserta
 
