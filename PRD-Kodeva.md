@@ -599,7 +599,8 @@ src/
 │   ├── content/ (components, model, server)
 │   ├── leads/ (components, server, tests)
 │   ├── marketing/ (components, model, CSV/filter tests)
-│   └── products/ (components, model, tests)
+│   ├── products/ (components, model, tests)
+│   └── sharing/ (components, hooks, model, services, types, tests)
 ├── integrations/
 │   ├── sanity/ (client.server, image)
 │   └── supabase/ (browser, config, server)
