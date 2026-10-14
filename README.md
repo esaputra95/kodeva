@@ -107,7 +107,7 @@ Suite berisi 25 unit test pada 8 file: hitung harga dan kuota lintas paket, peru
 - Siapkan atau verifikasi akun Auth dan membership reviewer marketing, lalu uji login/RLS serta CSV. Allowlist terakhir diperiksa saat deployment awal dan saat itu kosong.
 - Login Studio dan pembacaan artikel published sudah terbukti. Uji perubahan konten berikutnya tanpa redeploy, termasuk campaign landing dan gambar CMS.
 - Lighthouse mobile belum menghasilkan skor: proses CLI tidak dapat menyalakan Chrome di lingkungan ini (`waiting for dynamic debugging port`). Target 80 tetap belum boleh diklaim; jalankan Lighthouse dari Chrome setelah deploy/di mesin demo.
-- Durasi pengerjaan aktual perlu dicatat sebelum submit; jangan mengisi perkiraan seolah hasil pengukuran.
+- Durasi pengerjaan aktual: 09.00–16.30 WIB (7 jam 30 menit), sesuai catatan peserta.
 - README ini dan `AI_LOG.md` berisi kontribusi AI. Isi bagian “ditulis sendiri” di AI log dengan paragraf yang benar-benar kamu tulis.
 
 Status ini dicatat apa adanya supaya reviewer dapat membedakan implementasi lokal dan layanan yang masih perlu disiapkan.
