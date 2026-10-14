@@ -17,7 +17,7 @@ Pada 14 Oktober 2026, build Vercel berstatus Ready. Landing, katalog, blog, tamb
 
 Konfigurasi Sanity dan publishable key Supabase disimpan untuk Production/Preview. `NEXT_PUBLIC_SITE_URL=https://kodeva-seven.vercel.app` dan `SUPABASE_SECRET_KEY` hanya disimpan untuk Production; key server memakai tipe Sensitive/Secret. Host `/studio` terdaftar di Sanity dan origin `https://kodeva-seven.vercel.app` memiliki credentials allowed. Nilai secret tidak disimpan di repository. File `.env` lokal tersedia dan diabaikan Git; pengujian cloud di bawah memakai konfigurasi Production.
 
-Pada pemeriksaan lanjutan 14 Oktober 2026, artikel “Cara Agar Bisnis lebih rapi” sudah muncul pada blog produksi dari Sanity. Perubahan publish berikutnya, konten campaign landing, dan webhook masih perlu diuji; cache konten memakai revalidasi 60 detik. Login/RLS akun marketing dan akses reviewer belum diverifikasi ulang.
+Pada pemeriksaan lanjutan 14 Oktober 2026, artikel “Cara Agar Bisnis lebih rapi” sudah muncul pada blog produksi dari Sanity. Landing campaign yang lengkap juga sudah dipublikasikan. Query CMS membaca konten published langsung agar perubahan tampil setelah publish, tanpa menunggu revalidasi cache. Login/RLS akun marketing dan akses reviewer belum diverifikasi ulang.
 
 ## Jalankan lokal
 
@@ -47,7 +47,7 @@ Landing, blog, katalog, cart, dan checkout simulasi dapat dibuka tanpa kunci Sup
 
 Studio berjalan di `/studio` dan meminta login Sanity. Dataset yang dipakai adalah `production`. Buat satu dokumen `campaignLanding` untuk mengubah copy hero, pilihan produk, cerita skenario, FAQ, form lead, dan metadata SEO. Buat kategori dan artikel untuk mengubah blog. Post hanya tampil pada perspektif published; artikel contoh lokal muncul dari fixture jika dataset kosong.
 
-Request konten diberi cache 60 detik. Agar perubahan publish menyegarkan cache lebih cepat, buat webhook Sanity untuk create/update/delete dokumen `campaignLanding`, `post`, dan `blogCategory`; kirim `POST` ke `https://<domain>/api/revalidate` dengan header `Authorization: Bearer <SANITY_REVALIDATE_SECRET>`. Simpan secret yang sama di environment deploy. Tanpa webhook, konten berubah paling lambat pada revalidasi request berikutnya setelah satu menit.
+Query dokumen campaign dan artikel langsung ke Content Lake tanpa cache Next.js/CDN, sehingga perubahan publish tidak bergantung pada webhook. Route `/api/revalidate` tetap tersedia untuk bila strategi cache diaktifkan lagi.
 
 ## Lead dan panel marketing
 

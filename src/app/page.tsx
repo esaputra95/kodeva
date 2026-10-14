@@ -3,6 +3,8 @@ import { SiteShell } from "@/components/layouts/site-shell";
 import { LandingPage } from "@/features/content/components/landing-page";
 import { getLandingContent } from "@/features/content/server/queries";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getLandingContent();
   return { title: content.seo.title, description: content.seo.description };
